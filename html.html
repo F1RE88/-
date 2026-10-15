@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>لعبة حلقة الإمام الشاطبي</title>
+  <link rel="icon" href="icon.png" crossorigin>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: radial-gradient(circle at top center, #1e293b 0%, #0f172a 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-amiri {
+      font-family: 'Amiri', serif;
+    }
+
+    /* Ambient animated background particles with fluid responsive sizes */
+    .bg-glow {
+      position: absolute;
+      width: min(100vw, 600px);
+      height: min(100vw, 600px);
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.18) 0%, rgba(16, 185, 129, 0.08) 50%, rgba(0, 0, 0, 0) 70%);
+      border-radius: 50%;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: pulseGlow 8s infinite alternate ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: translateX(-50%) scale(0.9); opacity: 0.7; }
+      100% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+    }
+
+    /* Floating Animation */
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Shimmer effect for buttons */
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.25) 50%,
+        transparent 70%
+      );
+      transform: rotate(30deg) translateX(-100%);
+      transition: transform 0.8s ease;
+    }
+    .btn-shimmer:hover::after, .btn-shimmer:active::after {
+      transform: rotate(30deg) translateX(100%);
+    }
+
+    /* Smooth page switch transition */
+    .page-view {
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .page-hidden {
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+      display: none !important;
+    }
+    .page-visible {
+      opacity: 1;
+      transform: scale(1);
+      display: flex !important;
+    }
+
+    /* Custom Glassmorphism Box */
+    .glass-card {
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="relative min-h-screen min-h-[100dvh] flex flex-col justify-between items-center p-3 sm:p-6 overflow-x-hidden">
+
+  <div class="bg-glow"></div>
+  <div class="fixed inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:20px_20px] sm:[background-size:24px_24px] opacity-20 pointer-events-none"></div>
+
+  <main id="home-view" class="page-view page-visible flex-col items-center justify-center min-h-[80dvh] my-auto text-center z-10 w-full max-w-4xl py-6 px-2">
+    
+    <!-- Quran Icon Decoration -->
+    <div class="animate-float mb-5 inline-flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-amber-500/20 to-emerald-500/20 rounded-full border border-amber-500/30 shadow-2xl">
+      <i class="fa-solid fa-book-quran text-4xl sm:text-6xl md:text-7xl text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"></i>
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="text-3xl xs:text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-emerald-300 font-amiri leading-tight mb-3 sm:mb-4 tracking-wide drop-shadow-md px-1">
+      لعبة حلقة الإمام الشاطبي
+    </h1>
+
+    <p class="text-slate-300 text-sm sm:text-lg md:text-xl font-light mb-8 max-w-xl mx-auto leading-relaxed px-2">
+      مرحباً بكم في اللعبة التنشيطية والتنافسية المخصصة لحلقة الإمام الشاطبي لتحفيظ القرآن الكريم
+    </p>
+
+    <!-- Start Button (Optimized touch target for mobile) -->
+    <button id="start-btn" class="btn-shimmer group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 rounded-full shadow-[0_10px_25px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_35px_rgba(245,158,11,0.6)] active:scale-95 hover:scale-105 transition-all duration-300 cursor-pointer w-full max-w-xs xs:w-auto">
+      <span>ابدأ اللعبة الآن</span>
+      <i class="fa-solid fa-gamepad text-xl sm:text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+    </button>
+  </main>
+
+  <main id="game-view" class="page-view page-hidden flex-col items-center justify-center min-h-[85dvh] z-10 w-full max-w-5xl py-2 sm:py-4">
+    
+    <!-- Navigation Back Button -->
+    <div class="w-full flex justify-start mb-3 sm:mb-4 px-1">
+      <button id="back-btn" class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-slate-800/90 text-amber-400 border border-amber-500/30 hover:bg-slate-700/80 active:scale-95 transition-all text-xs sm:text-sm font-semibold cursor-pointer">
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+        <span>العودة للرئيسية</span>
+      </button>
+    </div>
+
+    <!-- Main Game Container Card -->
+    <div class="glass-card w-full rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-8 text-center flex flex-col items-center">
+      
+      <!-- Top Title -->
+      <div class="mb-3 sm:mb-6 flex items-center justify-center gap-2 sm:gap-3 bg-amber-500/10 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border border-amber-500/20 w-full sm:w-auto">
+        <i class="fa-solid fa-star text-amber-400 text-sm sm:text-xl animate-spin" style="animation-duration: 8s;"></i>
+        <h2 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-amber-300 font-amiri leading-snug">
+          لعبه تنشيطيه على القران الكريم
+        </h2>
+        <i class="fa-solid fa-star text-amber-400 text-sm sm:text-xl animate-spin" style="animation-duration: 8s;"></i>
+      </div>
+
+      <!-- Center Frame Container (Responsive viewport bounds for all mobile screens) -->
+      <div class="w-full h-[55vh] xs:h-[60vh] sm:h-[65vh] max-h-[680px] min-h-[380px] my-2 sm:my-4 rounded-xl sm:rounded-2xl border-2 border-amber-500/40 bg-slate-900/80 flex flex-col items-center justify-center relative overflow-hidden group shadow-2xl">
+        
+        <!-- Wordwall Embedded Game Frame -->
+        <iframe 
+          src="https://wordwall.net/embed/f6bc6718e4e049f3aed81b7bf436984d?themeId=66&templateId=5&fontStackId=0" 
+          class="w-full h-full border-0 rounded-xl sm:rounded-2xl" 
+          allowfullscreen 
+          scrolling="no">
+        </iframe>
+
+      </div>
+
+      <!-- Bottom Message -->
+      <div class="mt-3 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-700/60 w-full">
+        <h3 class="text-base sm:text-xl md:text-2xl font-bold text-emerald-400 font-amiri flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+          <i class="fa-solid fa-trophy text-amber-400 text-sm sm:text-lg"></i>
+          <span>مع تهنياتنا لك بالفوز وشكرا</span>
+          <i class="fa-solid fa-heart text-red-400 text-sm sm:text-base"></i>
+        </h3>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="w-full text-center py-3 text-slate-500 text-[11px] sm:text-xs z-10">
+    <p>جميع الحقوق محفوظة &copy; لعبة حلقة الإمام الشاطبي</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const homeView = document.getElementById('home-view');
+      const gameView = document.getElementById('game-view');
+      const startBtn = document.getElementById('start-btn');
+      const backBtn = document.getElementById('back-btn');
+
+      // Navigate to Wordwall Game View
+      startBtn.addEventListener('click', () => {
+        homeView.classList.remove('page-visible');
+        homeView.classList.add('page-hidden');
+
+        setTimeout(() => {
+          gameView.classList.remove('page-hidden');
+          gameView.classList.add('page-visible');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 200);
+      });
+
+      // Return to Home Landing View
+      backBtn.addEventListener('click', () => {
+        gameView.classList.remove('page-visible');
+        gameView.classList.add('page-hidden');
+
+        setTimeout(() => {
+          homeView.classList.remove('page-hidden');
+          homeView.classList.add('page-visible');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>
