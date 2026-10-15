@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>لعبة حلقة الإمام الشاطبي</title>
-  <link rel="icon" href="icon.png" crossorigin>
+  <title>مسابقة حلقة الإمام الشاطبي</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Preconnect to Wordwall servers for faster game loading -->
+  <link rel="preconnect" href="https://wordwall.net" crossorigin>
+  <link rel="dns-prefetch" href="https://wordwall.net">
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -118,18 +121,18 @@
       <i class="fa-solid fa-book-quran text-4xl sm:text-6xl md:text-7xl text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"></i>
     </div>
 
-    <!-- Main Title -->
+    <!-- Main Title (Removed "لعبة") -->
     <h1 class="text-3xl xs:text-4xl sm:text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-emerald-300 font-amiri leading-tight mb-3 sm:mb-4 tracking-wide drop-shadow-md px-1">
-      لعبة حلقة الإمام الشاطبي
+      حلقة الإمام الشاطبي
     </h1>
 
     <p class="text-slate-300 text-sm sm:text-lg md:text-xl font-light mb-8 max-w-xl mx-auto leading-relaxed px-2">
-      مرحباً بكم في اللعبة التنشيطية والتنافسية المخصصة لحلقة الإمام الشاطبي لتحفيظ القرآن الكريم
+      مرحباً بكم في المسابقة التنشيطية والتنافسية المخصصة لحلقة الإمام الشاطبي لتحفيظ القرآن الكريم
     </p>
 
-    <!-- Start Button (Optimized touch target for mobile) -->
+    <!-- Start Button -->
     <button id="start-btn" class="btn-shimmer group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-bold text-slate-950 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 rounded-full shadow-[0_10px_25px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_35px_rgba(245,158,11,0.6)] active:scale-95 hover:scale-105 transition-all duration-300 cursor-pointer w-full max-w-xs xs:w-auto">
-      <span>ابدأ اللعبة الآن</span>
+      <span>ابدأ المسابقة الآن</span>
       <i class="fa-solid fa-gamepad text-xl sm:text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
     </button>
   </main>
@@ -151,19 +154,37 @@
       <div class="mb-3 sm:mb-6 flex items-center justify-center gap-2 sm:gap-3 bg-amber-500/10 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border border-amber-500/20 w-full sm:w-auto">
         <i class="fa-solid fa-star text-amber-400 text-sm sm:text-xl animate-spin" style="animation-duration: 8s;"></i>
         <h2 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-amber-300 font-amiri leading-snug">
-          لعبه تنشيطيه على القران الكريم
+          مسابقة تنشيطيه على القران الكريم
         </h2>
         <i class="fa-solid fa-star text-amber-400 text-sm sm:text-xl animate-spin" style="animation-duration: 8s;"></i>
       </div>
 
-      <!-- Center Frame Container (Responsive viewport bounds for all mobile screens) -->
+      <!-- Reload Button Placed Outside the Game Frame -->
+      <div class="w-full flex justify-end mb-2">
+        <button id="reload-iframe-btn" 
+                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800/90 text-amber-300 hover:bg-slate-700 border border-amber-500/30 shadow-lg transition-all text-xs font-bold active:scale-95 cursor-pointer">
+          <i class="fa-solid fa-rotate-right text-xs"></i>
+          <span>إعادة تحميل المسابقة</span>
+        </button>
+      </div>
+
+      <!-- Center Frame Container -->
       <div class="w-full h-[55vh] xs:h-[60vh] sm:h-[65vh] max-h-[680px] min-h-[380px] my-2 sm:my-4 rounded-xl sm:rounded-2xl border-2 border-amber-500/40 bg-slate-900/80 flex flex-col items-center justify-center relative overflow-hidden group shadow-2xl">
-        
+
+        <!-- Loading Spinner Indicator -->
+        <div id="game-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 z-10 transition-opacity duration-500">
+          <i class="fa-solid fa-circle-notch text-amber-400 text-3xl sm:text-4xl animate-spin mb-3"></i>
+          <span class="text-amber-200/90 text-sm sm:text-base font-semibold">جاري تحميل المسابقة...</span>
+        </div>
+
         <!-- Wordwall Embedded Game Frame -->
         <iframe 
-          src="https://wordwall.net/embed/f6bc6718e4e049f3aed81b7bf436984d?themeId=66&templateId=5&fontStackId=0" 
-          class="w-full h-full border-0 rounded-xl sm:rounded-2xl" 
+          id="wordwall-iframe"
+          src="https://wordwall.net/embed/765763d14d5c4f26b5876c83a0c0c847?themeId=66&templateId=5&fontStackId=0" 
+          class="w-full h-full border-0 rounded-xl sm:rounded-2xl relative z-20" 
+          allow="fullscreen; autoplay; geolocation; microphone; camera"
           allowfullscreen 
+          loading="eager"
           scrolling="no">
         </iframe>
 
@@ -182,7 +203,7 @@
   </main>
 
   <footer class="w-full text-center py-3 text-slate-500 text-[11px] sm:text-xs z-10">
-    <p>جميع الحقوق محفوظة &copy; لعبة حلقة الإمام الشاطبي</p>
+    <p>جميع الحقوق محفوظة &copy; مسابقة حلقة الإمام الشاطبي</p>
   </footer>
 
   <script>
@@ -191,6 +212,32 @@
       const gameView = document.getElementById('game-view');
       const startBtn = document.getElementById('start-btn');
       const backBtn = document.getElementById('back-btn');
+      const iframe = document.getElementById('wordwall-iframe');
+      const loader = document.getElementById('game-loader');
+      const reloadBtn = document.getElementById('reload-iframe-btn');
+
+      // Refresh iframe manually if needed
+      if (reloadBtn && iframe) {
+        reloadBtn.addEventListener('click', () => {
+          if (loader) {
+            loader.style.display = 'flex';
+            loader.style.opacity = '1';
+          }
+          iframe.src = iframe.src;
+        });
+      }
+
+      // Hide loader indicator when Wordwall finishes loading
+      if (iframe) {
+        iframe.addEventListener('load', () => {
+          if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+              loader.style.display = 'none';
+            }, 500);
+          }
+        });
+      }
 
       // Navigate to Wordwall Game View
       startBtn.addEventListener('click', () => {
@@ -210,8 +257,7 @@
         gameView.classList.add('page-hidden');
 
         setTimeout(() => {
-          homeView.classList.remove('page-hidden');
-          homeView.classList.add('page-visible');
+          homeView.classList.replace('page-hidden', 'page-visible');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 200);
       });
